@@ -18,7 +18,7 @@ const registerUser = async (req, res, next) => {
       return res.status(400).json({ Message: "All Data is Required" });
     } else {
       const userAvailable = await Users.findOne({ Email: req.body.email });
-      console.log("t1", userAvailable);
+      // console.log("t1", userAvailable);
 
       if (userAvailable) {
         return res.status(400).json("User Already Exist");
@@ -48,7 +48,7 @@ const loginUser = async (req, res, next) => {
       return res.status(400).json({ Message: "All Data is Required" });
     } else {
       const userAvailable = await Users.findOne({ Email: req.body.email });
-      console.log(userAvailable);
+      // console.log(userAvailable);
       if(userAvailable){
         const validPass = await bcrypt.compare(pass, userAvailable.Password);
         if (userAvailable && validPass) {

@@ -23,7 +23,12 @@ const addContacts = async (req, res, next) => {
     const PhoneNo = req.body.PhoneNo;
     const Age = req.body.Age;
     const uuid = req.user._id;
-    console.log(uuid);
+    // console.log(uuid);
+    const userAvailable = await Contacts.findOne({ Email: req.body.Email });
+    //  console.log(userAvailable);
+    if (userAvailable) {
+      throw new Error("Email already Exist")
+    }
     if (!Name || !Email || !PhoneNo || !Age) {
 
       throw new Error("Please Add All Details")
@@ -41,6 +46,9 @@ const addContacts = async (req, res, next) => {
       const info = await data.save();
       res.json(info);
     }
+
+
+
   } catch (err) {
 
     next(err)
@@ -103,26 +111,26 @@ const updateContacts = async (req, res, next) => {
 
 //DELETE TASK
 //@ DELETE api/delete/:id
-const deleteContacts = async (req, res) => {
+const deleteContacts = async (req, res,next) => {
   try {
     const id = req.params.id;
     const contactdetails = await Contacts.findById({ _id: id });
 
     if (!contactdetails) {
       return res.status(400).json("Contact Not Found");
-    } 
-    
+    }
+
     else {
       if (contactdetails.user_id.toString() !== req.user._id) {
         const err = new Error("Try to unauthorized access")
         return next(err)
       } else {
-        const contactdetails = await Tasks.findByIdAndDelete({ _id: id });
-        res.status(200).json("Task deleted Successfully");
+        await Contacts.deleteOne({ _id: id });
+        res.status(200).json("Contact deleted Successfully");
       }
     }
   }
-  
+
   catch (err) {
     next(err)
   }

@@ -6,3 +6,5 @@ const server = http.createServer(app);
 server.listen(process.env.PORT, () => {
   console.log("Server is running live...");
 });
+
+module.exports = server;

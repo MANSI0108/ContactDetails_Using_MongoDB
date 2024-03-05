@@ -15,12 +15,12 @@ const validateToken = async (req, res, next) => {
           const err = new Error("Token is Invalid")
           return next(err)
         }
-        console.log(result);
+        // console.log(result);
         req.user = result.user;
         //  console.log(req.user._id);
         next();
       });
-
+      // console.log(token);
       if (!token) {
         throw new Error("user is not authorized")
       }
