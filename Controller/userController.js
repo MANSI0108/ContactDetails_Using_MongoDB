@@ -42,8 +42,10 @@ const registerUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   try {
+   
     const pass = req.body.password;
     const Email = req.body.email;
+    
     if (!pass || !Email) {
       return res.status(400).json({ Message: "All Data is Required" });
     } else {
